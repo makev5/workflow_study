@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build app and deploy to Tencent
 on:
   #监听push操作
   push:
@@ -13,7 +13,7 @@ jobs:
     # 步骤
     steps:
     # 使用别人的action
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     # 步骤名称
     - name: npm install
       # 步骤执行指令
@@ -24,11 +24,13 @@ jobs:
     - name: Deploy
       # 因为构建之后，需要把代码上传到服务器上，所以需要连接到ssh，并且做一个拷贝操作
       uses: cross-the-world/scp-pipeline@master
+      env:
         WELCOME: "ssh scp ssh pipelines"
         LASTSSH: "Doing something after copying"
       with:
         host: ${{ secrets.USER_HOST }}
         user: ${{ secrets.USER_NAME }}
         pass: ${{ secrets.USER_PASS }}
+        connect_timeout: 10s
         local: './dist/*'
-        remote: /home/www/dist/
+        remote: /home/www/dist
