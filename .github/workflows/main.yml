@@ -36,4 +36,5 @@ jobs:
         first_ssh: | 
           rm -rf /home/www/dist
           mkdir -p /home/www/dist
-        scp: './dist/*' => /home/www/dist
+        scp: |
+           './dist/*' => /home/www/dist
